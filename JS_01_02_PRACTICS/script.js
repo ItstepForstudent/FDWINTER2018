@@ -79,5 +79,3 @@ var fullBucketVolume = bucketCount*bucketVolume;
 alert(bathVolume<fullBucketVolume?"Куда льешь, не влазит":"огонь");
 
 
-
-
