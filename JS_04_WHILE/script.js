@@ -119,3 +119,14 @@ function rand(a,b){
 
 
 
+while (1){
+    var x = rand(1,50);
+    if(x===7) continue;
+    if(x===10){
+        document.write(100+"<br>");
+        continue;
+    }
+    document.write(x+"<br>");
+    if(x===4) break;
+}
+
