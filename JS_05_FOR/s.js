@@ -31,11 +31,12 @@
 // }
 
 vasia:
-for (var i=0;i<10;i++){
-    for(var j=0;j<i;j++){
-        document.write("<h1>"+i+"->"+j+"</h1>");
-        if(j==5)continue vasia;
+for (var i=0;i<10;i++) {
+    for (var j = 0; j < i; j++) {
+        document.write("<h1>" + i + "->" + j + "</h1>");
+        if (j == 5) continue vasia;
     }
+}
 
 
 
