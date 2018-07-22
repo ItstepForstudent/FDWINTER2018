@@ -60,9 +60,21 @@ function arrayPow(arr,power){
     return result;
 }
 
-var x = arrayAvg(arrayPow([1,2,3],2));
+function arrayContains(arr,elem) {
+    for(let i in arr)
+        if(arr[i] === elem) return true;
+    return false;
+}
 
-console.log(x);
+function arrayDifference(arr1,arr2){
+    let result = [];
+    for(let i in arr1)
+        if(!arrayContains(arr2,arr1[i]))
+            result.push(arr1[i]);
+    return result;
+}
+
+console.log(arrayDifference([1,2,3,4,5,6],[1,2,4,6,7]));
 
 
 
