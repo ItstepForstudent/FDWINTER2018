@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .phone{
+            background-color: #89fff8;
+            border: 1px solid #369;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <h2>Add Phone</h2>
+    <input type="text" id="phoneName"><br>
+    <input type="text" id="phoneManuf"><br>
+    <input type="number" id="phonePrice" value="500"><br>
+    <button id="addPhone">ADD</button>
+</div>
+
+<div>
+    <h2>Diller filter</h2>
+    <input type="text" id="dillerFilterName"> <button id="dillerFilterBtn">Ok</button>
+</div>
+<div>
+    <h2>Price filter</h2>
+    <input type="number" id="priceFilterMin" value="200">
+    <input type="number" id="priceFilterMax" value="1000">
+    <button id="priceFilterBtn">Ok</button>
+</div>
+
+<h2>Reset Filters</h2>
+<button id="reset">RESET</button>
+
+<div id="catalog">
+
+</div>
+
+
+<script>
+    let catalogElem = document.getElementById("catalog");
+
+    let addPhoneName = document.getElementById("phoneName");
+    let addPhoneManuf = document.getElementById("phoneManuf");
+    let addPhonePrice = document.getElementById("phonePrice");
+    let addPhoneBtn = document.getElementById("addPhone");
+
+    let dillerFilterName = document.getElementById("dillerFilterName");
+    let dillerFilertBtn = document.getElementById("dillerFilterBtn");
+
+    let priceFilterMin = document.getElementById("priceFilterMin");
+    let priceFilterMax = document.getElementById("priceFilterMax");
+    let priceFilertBtn = document.getElementById("priceFilterBtn");
+
+    let resetBtn = document.getElementById("reset");
+
+    function Phone(manufacturer, model, price) {
+        this.manufacturer = manufacturer;
+        this.model = model;
+        this.price = price;
+
+        this.asHTML = function () {
+            return `
+                <div class="phone">
+                    <div class="model">${this.model}</div>
+                    <div class="manuf">${this.manufacturer}</div>
+                    <div class="price">${this.price} $</div>
+                </div>
+            `;
+        }
+    }
+
+    function PhoneCatalog() {
+        this.phones = [];
+
+        this.add = function (phone) {
+            this.phones.push(phone);
+        };
+
+        this.getAll = function () {
+            return this.phones
+        };
+
+        this.getByManufacturer = function (manuf) {
+            return this.phones.filter(p => p.manufacturer === manuf);
+        };
+
+        this.getByPriceFilter = function (min, max) {
+            return this.phones
+                .filter(p => p.price >= min)
+                .filter(p => p.price <= max)
+                .sort((a, b) => a.price > b.price ? 1 : a.price === b.price ? 0 : -1);
+        }
+    }
+
+    function showPhones(phones) {
+        let pnonesHTML="";
+        phones.forEach(p => pnonesHTML+=p.asHTML());
+        catalogElem.innerHTML = pnonesHTML;
+    }
+
+    let catalog = new PhoneCatalog();
+    catalog.add(new Phone("Nokia", "1100", 500));
+    catalog.add(new Phone("Motorolla", "E398", 500));
+    catalog.add(new Phone("Siamens", "C75", 500));
+    showPhones(catalog.getAll());
+
+
+    resetBtn.onclick = function(){
+        showPhones(catalog.getAll());
+    };
+
+    addPhoneBtn.onclick = function () {
+        catalog.add(new Phone(
+            addPhoneManuf.value,
+            addPhoneName.value,
+            parseInt(addPhonePrice.value)
+        ));
+        showPhones(catalog.getAll());
+    };
+
+    dillerFilertBtn.onclick = function () {
+        showPhones(catalog.getByManufacturer(dillerFilterName.value));
+    };
+
+    priceFilertBtn.onclick = function () {
+        showPhones(catalog.getByPriceFilter(priceFilterMin.value,priceFilterMax.value));
+    }
+
+
+
+
+</script>
+</body>
+</html>
