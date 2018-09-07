@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+
+
+
+
+        let page = {
+            init:function () {
+                this.lineModule.init();
+            }
+        };
+
+
+        page.lineModule = {
+            init: function () {
+                this.textBlock = document.querySelector(".block");
+                this.textInput = document.querySelector("input");
+                this.button = document.querySelector("button");
+                this.bindEvent();
+            },
+            bindEvent: function () {
+                this.button.addEventListener("click", this.onAddNewLine.bind(this));
+            },
+            onAddNewLine: function () {
+                this.textBlock.innerHTML += this.textInput.value + "<br/>";
+            }
+        };
+
+
+        window.addEventListener("load", page.init.bind(page))
+
+
+    </script>
+</head>
+<body>
+<div class="block"></div>
+<input type="text">
+<button>Ok</button>
+
+
+
+</body>
+</html>

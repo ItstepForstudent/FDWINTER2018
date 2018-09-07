@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+
+
+        let page = {
+            init: function () {
+                this.lineModule.init();
+            }
+        };
+
+
+        page.lineModule = {
+            data: [],
+            init: function () {
+                this.list = document.querySelector(".list");
+                this.controlls = document.querySelector(".ctrls");
+                this.textInput = this.controlls.querySelector("input");
+                this.button = this.controlls.querySelector("button");
+                this.bindEvent();
+            },
+            bindEvent: function () {
+                this.button.addEventListener("click", this.addLine.bind(this));
+                this.list.addEventListener("click", e => e.target.matches("li") ? this.show(e.target) : null);
+            },
+            draw: function () {
+                let inner = "";
+                for (let i in this.data) inner += `<li data-index="${i}">${this.data[i]}</li>`;
+                this.list.innerHTML = inner;
+            },
+            addLine: function () {
+                this.data.push(this.textInput.value);
+                this.draw();
+            },
+            show:function(elem){
+                let index = elem.dataset.index;
+                alert(this.data[index]);
+                this.data.splice(index,1);
+                this.draw()
+            }
+
+        };
+
+
+        window.addEventListener("load", page.init.bind(page))
+
+
+    </script>
+</head>
+<body>
+
+<ul class="list"></ul>
+<div class="ctrls">
+    <input type="text">
+    <button>ADD</button>
+</div>
+
+</body>
+</html>
