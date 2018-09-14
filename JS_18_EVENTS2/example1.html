@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.addEventListener("load",e=>{
+            document.querySelector(".a").addEventListener("click",e=>alert("A"));
+            document.querySelector(".b").addEventListener("click",e=>{
+                alert("B");
+                e.stopPropagation();
+            });
+            document.querySelector(".c").addEventListener("click",e=>{
+                alert("C");
+                e.stopPropagation();
+            });
+        })
+    </script>
+    <style>
+        .a{
+            width: 200px;
+            height: 200px;
+            padding: 50px;
+            background-color: #ccc;
+        }
+        .b{
+            width: 100px;
+            height: 100px;
+            padding: 50px;
+            background-color: #336699;
+        }
+        .c{
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="a">
+        <div class="b">
+            <div class="c"></div>
+        </div>
+    </div>
+</body>
+</html>

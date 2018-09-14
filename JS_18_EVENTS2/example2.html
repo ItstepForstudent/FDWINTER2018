@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.addEventListener("load",e=>{
+
+            let contextmenu = document.querySelector(".contextmenu");
+
+            document.addEventListener("contextmenu",e=>{
+                e.preventDefault();
+                contextmenu.classList.add("visible");
+                contextmenu.style.left = e.clientX+"px";
+                contextmenu.style.top = e.clientY+"px";
+
+            });
+
+            document.addEventListener("click",e=>{
+                if(!e.target.matches(".contextmenu")) {
+                    e.preventDefault();
+                    contextmenu.classList.remove("visible");
+                }
+            })
+        })
+    </script>
+    <style>
+        .contextmenu{
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 200px;
+            background-color: #369;
+            display: none;
+        }
+        .contextmenu.visible{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="contextmenu">
+    
+</div>
+</body>
+</html>
