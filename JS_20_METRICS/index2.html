@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        let conteiner,left,right,activePoint=null;
+
+
+        function mouseInElement(elem,x,y){
+            let rect = elem.getBoundingClientRect();
+            return x>=rect.left && x<=rect.right && y>=rect.top && y<=rect.bottom;
+        }
+
+
+        function setActivePosition(mouseX,mouseY){
+            let rect = conteiner.getBoundingClientRect();
+
+            let ml = parseInt(getComputedStyle(activePoint).marginLeft);
+            let mt = parseInt(getComputedStyle(activePoint).marginTop);
+
+            let w = activePoint.offsetWidth+2*ml;
+            let h = activePoint.offsetHeight+2*mt;
+
+            activePoint.style.left = mouseX-rect.left-w/2+"px";
+            activePoint.style.top = mouseY-rect.top-h/2+"px";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            conteiner = document.querySelector(".container");
+            left = conteiner.querySelector(".left");
+            right = conteiner.querySelector(".right");
+
+            conteiner.addEventListener("mousedown",function (e) {
+                if(e.target.matches(".point")) {
+                    activePoint = e.target;
+                    activePoint.style.position = "absolute";
+                    setActivePosition(e.clientX,e.clientY);
+                }
+            });
+
+            conteiner.addEventListener("mousemove",function (e) {
+                if(activePoint!=null){
+                    setActivePosition(e.clientX,e.clientY);
+                }
+            });
+
+
+
+            conteiner.addEventListener("mouseup",function (e) {
+                if(activePoint!=null) {
+                    activePoint.style.position = "";
+                    activePoint.style.left = "";
+                    activePoint.style.top = "";
+
+                    if(activePoint.closest(".left")){
+                        if(mouseInElement(right,e.clientX,e.clientY)){
+                            right.appendChild(activePoint)
+                        }
+                    }else if(activePoint.closest(".right")){
+                        if(mouseInElement(left,e.clientX,e.clientY)){
+                            left.appendChild(activePoint)
+                        }
+                    }
+                }
+
+
+
+                activePoint=null;
+            })
+
+        })
+    </script>
+
+    <style>
+        .container {
+            height: 600px;
+            display: table;
+            width: 100%;
+            position: relative;
+            font-size: 0;
+        }
+
+        .left {
+            display: table-cell;
+            width: 50%;
+            background-color: #369;
+        }
+
+        .right {
+            display: table-cell;
+            width: 50%;
+            background-color: #963;
+        }
+
+        .point {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: #ccc;
+            user-select: none;
+            font-size: 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="left">
+        <div class="point">p01</div>
+        <div class="point">p02</div>
+        <div class="point">p03</div>
+        <div class="point">p04</div>
+        <div class="point">p05</div>
+    </div>
+    <div class="right"></div>
+</div>
+</body>
+</html>
