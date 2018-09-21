@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		
+
+
+
+
+		window.addEventListener("load",function(){
+			let timeOut = document.querySelector(".time");
+			let time = 15;
+			let pause = false;
+			let inter = setInterval(function(){
+				if(pause) return;
+				time--;
+				timeOut.innerText = time;
+				if(time==0) {
+					clearInterval(inter);
+					alert("hello")
+				}
+			},1000);
+
+			// let timer = setTimeout(function() {
+			// 	alert("hello")
+			// },15000);
+
+
+
+			let btn = document.querySelector("button");
+			btn.addEventListener("click",function(){
+				//clearTimeout(timer);
+				pause=!pause;
+				if(pause) btn.innerText="Continue";
+				else btn.innerText="Pause";
+			})
+		})
+	</script>
+</head>
+<body>
+	<button>stop</button>
+	<div class="time"></div>
+</body>
+</html>

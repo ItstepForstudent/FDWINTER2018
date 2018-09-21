@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		let dir = true;
+		
+		function animate(startvalue,endvalue,time,onframe){
+			let frames = time/40;
+			let step = (endvalue-startvalue)/frames;
+
+			let up = endvalue>startvalue;
+
+			let inter = setInterval(function(){
+				startvalue+=step;
+				if((up&&startvalue>=endvalue)||(!up && startvalue<=endvalue)){
+					clearInterval(inter);
+					startvalue=endvalue;
+				}
+				onframe(startvalue);
+			},20);
+		}
+
+		function moveButton(btn){
+			
+			if(dir) animate(0,800,2000,function(v){
+					btn.style.marginLeft = v+"px";
+				});
+			else animate(800,0,5000,function(v){
+					btn.style.marginLeft = v+"px";
+				});
+				dir=!dir;
+		}
+
+
+
+		window.addEventListener("load",function(){
+			let timeOut = document.querySelector(".time");
+			let btn = document.querySelector("button");
+			btn.addEventListener("click",function(){
+				moveButton(btn);
+			})
+		})
+	</script>
+</head>
+<body>
+	<button>stop</button>
+	<div class="time"></div>
+</body>
+</html>
