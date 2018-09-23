@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .container{
+            width: 1200px;
+            padding: 20px;
+            background-color: #369;
+            border-radius:5px ;
+        }
+        .polygon{
+            background-color: #ccc;
+            height: 500px;
+            position: relative;
+        }
+        .controls{
+            padding: 20px;
+            border-radius: 0 0 5px 5px;
+            background: #ccc;
+            display: inline-block;
+        }
+    </style>
+
+    <script>
+        function getRandom(a,b) {
+            return Math.round(Math.random()*(b-a)+a);
+        }
+
+        class Ball{
+            constructor(color){
+                this.color=color;
+                this.size = getRandom(100,200);
+                this.buildElem()
+
+            }
+            buildElem(){
+                this.elem = document.createElement("div");
+                this.configureStyle();
+            }
+
+            configureStyle(){
+                this.elem.style.width = this.size+"px";
+                this.elem.style.height = this.size+"px";
+                this.elem.style.borderRadius="50%";
+                this.elem.style.position="absolute";
+                this.elem.style.backgroundColor=this.color;
+            }
+            setPosition(x,y){
+                this.elem.style.left = x+"px";
+                this.elem.style.top = y+"px";
+            }
+
+            asElement(){
+                return this.elem;
+            }
+        }
+
+        class Module{
+            constructor(selector){
+                this.selector = selector;
+            }
+            get(selector){
+                return this.container.querySelector(selector);
+            }
+            init(){
+                this.container = document.querySelector(this.selector);
+            }
+
+        }
+
+
+
+        class Page{
+            constructor(){
+                this.modules=[];
+            }
+            registerModule(module){
+                this.modules.push(module);
+            }
+            init(){
+                this.modules.forEach(m=>m.init())
+            }
+            start(){
+                window.addEventListener("load",e=>this.init());
+            }
+
+        }
+
+
+
+        class BubblegenModule extends Module{
+
+            constructor(selector) {
+                super(selector);
+                this.bubbles=[];
+            }
+
+            init() {
+                super.init();
+                this.controls = this.get(".controls");
+                this.polygon = this.get(".polygon");
+                this.bindEvents();
+            }
+
+            bindEvents(){
+                this.controls.addEventListener("click",(e) => {
+                    if(e.target.matches(".btn")) this.createBall(e.target.dataset.color);
+                    if(e.target.matches(".clear")) this.clearBall();
+                });
+                this.polygon.addEventListener("click",e=>{
+                    if(!e.target.matches(".polygon")) this.removeBall(e.target);
+                });
+            }
+
+            createBall(color) {
+                let ball = new Ball(color);
+                this.bubbles.push(ball);
+                this.showInRandomPosition(ball)
+            }
+
+            showInRandomPosition(ball){
+                let x = getRandom(0,this.polygon.offsetWidth-ball.size);
+                let y = getRandom(0,this.polygon.offsetHeight-ball.size);
+                console.log(ball);
+                ball.setPosition(x,y);
+                this.polygon.appendChild(ball.asElement());
+            }
+
+            clearBall() {
+                this.bubbles.forEach(b=>this.polygon.removeChild(b.asElement()));
+                this.bubbles=[];
+            }
+
+            removeBall(target) {
+                this.bubbles = this.bubbles.filter(b=>b.asElement()!==target);
+                this.polygon.removeChild(target);
+            }
+        }
+
+
+
+
+        let page = new Page();
+        page.registerModule(new BubblegenModule(".c1"));
+        page.registerModule(new BubblegenModule(".c2"));
+        page.start();
+
+
+
+    </script>
+
+
+
+
+
+</head>
+<body>
+    <div class="container c1">
+        <div class="polygon">
+
+        </div>
+        <div class="controls">
+            <button class="btn" data-color="#369">blue</button>
+            <button class="btn" data-color="#963">orange</button>
+            <button class="btn" data-color="#396">green</button>
+            <button class="clear" >clear</button>
+        </div>
+    </div>
+    <div class="container c2">
+        <div class="polygon">
+
+        </div>
+        <div class="controls">
+            <button class="btn" data-color="#369">blue</button>
+            <button class="btn" data-color="#963">orange</button>
+            <button class="btn" data-color="#396">green</button>
+            <button class="clear" >clear</button>
+        </div>
+    </div>
+</body>
+</html>
