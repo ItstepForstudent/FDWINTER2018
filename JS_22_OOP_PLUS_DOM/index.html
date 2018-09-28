@@ -86,6 +86,35 @@
                 window.addEventListener("load",e=>this.init());
             }
 
+        }class Module{
+            constructor(selector){
+                this.selector = selector;
+            }
+            get(selector){
+                return this.container.querySelector(selector);
+            }
+            init(){
+                this.container = document.querySelector(this.selector);
+            }
+
+        }
+
+
+
+        class Page{
+            constructor(){
+                this.modules=[];
+            }
+            registerModule(module){
+                this.modules.push(module);
+            }
+            init(){
+                this.modules.forEach(m=>m.init())
+            }
+            start(){
+                window.addEventListener("load",e=>this.init());
+            }
+
         }
 
 

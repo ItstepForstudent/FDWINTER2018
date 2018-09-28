@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        class Module{
+            constructor(selector){
+                this.selector = selector;
+            }
+            get(selector){
+                return this.container.querySelector(selector);
+            }
+            init(){
+                this.container = document.querySelector(this.selector);
+            }
+
+        }
+        class Page{
+            constructor(){
+                this.modules=[];
+            }
+            registerModule(module){
+                this.modules.push(module);
+            }
+            init(){
+                this.modules.forEach(m=>m.init())
+            }
+            start(){
+                window.addEventListener("load",e=>this.init());
+            }
+
+        }
+
+        class SaveModule extends Module{
+
+            init() {
+                super.init();
+                this.saveField = this.get(".save");
+                this.saveBtn = this.get(".saveBTN");
+                this.clearBtn = this.get(".clearBTN");
+                this.deleteBtn = this.get(".deleteBTN");
+                this.loadData();
+                this.bindEvent();
+                this.forLocalStorage();
+            }
+            bindEvent(){
+                this.saveBtn.addEventListener("click",e=>this.saveData());
+                this.clearBtn.addEventListener("click",e=>this.clearStorage());
+                this.deleteBtn.addEventListener("click",e=>this.deleteSaved());
+            }
+
+            loadData(){
+                let value = window.localStorage.getItem("value");
+                if(value===null) return;
+                this.saveField.value = value;
+            }
+
+            saveData() {
+                window.localStorage.setItem("value",this.saveField.value);
+            }
+
+            clearStorage(){
+                window.localStorage.clear();
+            }
+            deleteSaved(){
+                window.localStorage.removeItem("value");
+            }
+            forLocalStorage(){
+                for(let i=0;i<localStorage.length;i++){
+                    let key = localStorage.key(i);
+                    console.log(key,localStorage.getItem(key));
+                }
+            }
+        }
+
+
+
+        let a = {
+            x:5,
+            v:"hello"
+        };
+
+        let str = JSON.stringify(a);
+        alert(str);
+        let obj = JSON.parse(str);
+        console.log(obj);
+
+        let page = new Page();
+        page.registerModule(new SaveModule(".saveModule"));
+        page.start();
+    </script>
+</head>
+<body>
+<div class="saveModule">
+    <input type="text" class="save">
+    <button class="saveBTN">save</button>
+    <button class="deleteBTN">delete</button>
+    <button class="clearBTN">clear</button>
+</div>
+
+</body>
+</html>
