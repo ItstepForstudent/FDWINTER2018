@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+
+        let req = new XMLHttpRequest();
+        req.open("POST","http://pdfstep.zzz.com.ua?action=user&method=add",true);
+
+        //header for post request with form-urlencoded
+        req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+        req.onreadystatechange = function(){
+            if(req.readyState!==4) return;
+            if(req.status === 200){
+                alert(req.responseText)
+
+            }else{
+                alert(req.statusText)
+            }
+        };
+
+        //send urlencoded post-data
+        value = encodeURIComponent("вася");
+        req.send("name="+value);
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

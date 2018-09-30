@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+
+        let req = new XMLHttpRequest();
+        req.open("GET","https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5",true);
+
+
+        req.onreadystatechange = function(){
+            if(req.readyState!==4) return;
+            if(req.status === 200){
+                let data = JSON.parse(req.responseText);
+
+                let str="";
+                for (i in data){
+                    x = `${data[i].ccy} <b>${data[i].buy}</b> ${data[i].base_ccy}`
+                    str+="<div>"+x+"</div>";
+                }
+                document.write(str);
+
+            }else{
+                alert(req.statusText)
+            }
+        };
+
+        req.send();
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

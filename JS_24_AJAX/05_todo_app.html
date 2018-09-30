@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script>
+        class Ajax{
+            static get(url,onsuccess,onerror){
+                let request = new XMLHttpRequest();
+                request.open("GET",url,true);
+                request.onreadystatechange=function () {
+                    if(request.readyState!==4) return;
+                    if(request.status===200)
+                        onsuccess(request.responseText);
+                    else if(onerror)
+                        onerror(request.status,request.statusText);
+                };
+                request.send();
+            }
+
+            static post(url,params,onsuccess,onerror){
+                let request = new XMLHttpRequest();
+                request.open("POST",url,true);
+                request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                request.onreadystatechange=function () {
+                    if(request.readyState!==4) return;
+                    if(request.status===200)
+                        onsuccess(request.responseText);
+                    else if(onerror)
+                        onerror(request.status,request.statusText);
+                };
+                let _params = [];
+                for(let i in params) _params.push(i+"="+encodeURIComponent(params[i]));
+                request.send(_params.join("&"));
+            }
+
+            static postMultiPart(url,params,onsuccess,onerror){
+                let request = new XMLHttpRequest();
+                request.open("POST",url,true);
+                request.onreadystatechange=function () {
+                    if(request.readyState!==4) return;
+                    if(request.status===200)
+                        onsuccess(request.responseText);
+                    else if(onerror)
+                        onerror(request.status,request.statusText);
+                };
+                request.send(params);
+            }
+        }
+
+        class Module{
+            constructor(selector){
+                this.selector = selector;
+            }
+            get(selector){
+                return this.container.querySelector(selector);
+            }
+            init(){
+                this.container = document.querySelector(this.selector);
+                this.loadComponents();
+                this.bindEvents();
+                this.onCreate();
+            }
+            loadComponents(){}
+            bindEvents(){}
+            onCreate(){}
+
+        }
+        class Page{
+            constructor(){
+                this.modules=[];
+            }
+            registerModule(module){
+                this.modules.push(module);
+            }
+            init(){
+                this.modules.forEach(m=>m.init())
+            }
+            start(){
+                window.addEventListener("load",e=>this.init());
+            }
+        }
+        //-------------------------------APPLICATION-------------------------------
+
+
+        class UsersModule extends Module{
+
+            loadComponents() {
+                this.userNameField = this.get(".username");
+                this.addUserBtn = this.get("button");
+                this.userlist = this.get(".list")
+            }
+
+            bindEvents() {
+                this.addUserBtn.addEventListener("click",e=>this.addNewUser());
+                this.userlist.addEventListener("click",e=>{
+                    if(e.target.matches('.del')) this.delUser(e.target.parentNode.dataset.id);
+                });
+            }
+
+            onCreate() {
+                this.users = [];
+                this.updateUsersList();
+            }
+
+            updateUsersList(){
+                Ajax.get("http://pdfstep.zzz.com.ua?action=user&method=getAll",
+                    resp=>this.onLoadUsers(JSON.parse(resp).data)
+                )
+            }
+            addNewUser(){
+                let name = this.userNameField.value;
+                Ajax.post("http://pdfstep.zzz.com.ua?action=user&method=add",{name:name},response=>{
+                    this.updateUsersList();
+                })
+            }
+            delUser(id) {
+                Ajax.post("http://pdfstep.zzz.com.ua?action=user&method=del",{id:id},response=>{
+                    this.updateUsersList();
+                })
+            };
+
+
+            onLoadUsers(users){
+                this.users = users;
+                this.updateView();
+            }
+
+            updateView(){
+                this.userlist.innerHTML="";
+                this.users.forEach(user=>{
+                    let item = document.createElement("div");
+                    item.className = "user";
+                    item.innerText = user.name;
+                    item.dataset.id = user.id;
+                    let delbtn = document.createElement("button");
+                    delbtn.className="del";
+                    delbtn.innerText="del";
+                    item.appendChild(delbtn);
+
+                    this.userlist.appendChild(item);
+                })
+            }
+
+
+
+        }
+
+
+
+        let page = new Page();
+        let usersModule = new UsersModule(".user-panel");
+        page.registerModule(usersModule);
+        page.start();
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+</head>
+<body>
+
+<div class="panel user-panel">
+    <div class="form">
+        <input type="text" class="username"><button>ADD</button>
+    </div>
+    <div class="list">
+
+    </div>
+</div>
+
+</body>
+</html>

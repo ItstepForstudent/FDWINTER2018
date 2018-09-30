@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+
+        let req = new XMLHttpRequest();
+        req.open("POST","http://pdfstep.zzz.com.ua?action=user&method=add",true);
+
+        req.onreadystatechange = function(){
+            if(req.readyState!==4) return;
+            if(req.status === 200){
+                alert(req.responseText)
+
+            }else{
+                alert(req.statusText)
+            }
+        };
+
+        let data = new FormData();
+        data.append("name","vasia");
+        req.send(data);
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
