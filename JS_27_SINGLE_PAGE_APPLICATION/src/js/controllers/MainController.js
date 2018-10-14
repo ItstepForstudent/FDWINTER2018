@@ -9,7 +9,7 @@ class MainController extends Page{
 class HelloModule extends Module{
 
     onComponentsLoading() {
-        this.model = MainModel.instance();
+        this.model = UsersModel.instance();
         this.button = this.get("button");
         this.content = this.get(".content");
     }
