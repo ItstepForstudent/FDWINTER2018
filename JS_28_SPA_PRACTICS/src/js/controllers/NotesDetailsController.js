@@ -1,7 +1,7 @@
 class NotesDetailsController extends Page{
     init() {
-        let id = this.router.activeRoute.params.id;
-        let idUser = this.router.activeRoute.params.userId;
+        let id = this.router.activeRoute._params.id;
+        let idUser = this.router.activeRoute._params.userId;
         this.registerModule(new NoteDetailsPageModule(".detailsModule",id,idUser));
         this.loadView("notes_details");
     }

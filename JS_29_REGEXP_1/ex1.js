@@ -37,8 +37,17 @@ function searchPhone() {
     let rexp = /(\+380|380|80|0)(\d{9})/g
     let res;
     while ((res = rexp.exec(txt))!==null){
-        console.log("+380"+res[2])
+        console.log("0"+res[2])
     }
 }
 
-searchPhone()
+function searchPhone2() {
+    let txt = "fdagvsdfgbdf +380687776655 fgsdfhbdf dfgh sdf380664455999 fgshfdhfgh dfh fghg80963334565 fdgsdfgh 0557894561";
+    let rexp = /(\+380|380|80|0)\d{9}/g;
+    let res;
+    while ((res = rexp.exec(txt))!==null){
+        let phone = res[0];
+        console.log(phone.replace(/^\+380|80|380|0/,"0"))
+    }
+}
+searchPhone2()
