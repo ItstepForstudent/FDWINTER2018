@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="baseApi.js"></script>
+    <script src="SliderModule.js"></script>
+    <script>
+        let page = new Page();
+        page.registerModule(new SliderModule(".myslider1",5000));
+        page.start();
+    </script>
+
+    <style>
+        .slider{
+            width: 960px;/*any width*/
+            height: 500px;/*any height*/
+
+            margin: 0 auto;
+            border:1px solid black;
+            position: relative;
+        }
+        .slider .slider-wrapper{
+            width: 200%;
+            height: 100%;
+            font-size: 0;
+        }
+        .slider .slider-wrapper .slider-slide{
+            width: 50%;
+            height: 100%;
+            display: inline-block;
+
+            font-size: 200px;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        .slider .slider-arrow{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: red;
+            top:50%;
+            margin-top: -25px;
+            cursor: pointer;
+        }
+        .slider .slider-arrow-left{
+            left: 25px;
+        }
+        .slider .slider-arrow-right{
+            right: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider myslider1">
+        <div class="slider-arrow slider-arrow-left"></div>
+        <div class="slider-arrow slider-arrow-right"></div>
+        <div class="slider-wrapper">
+            <div class="slider-slide">1</div>
+            <div class="slider-slide">2</div>
+            <div class="slider-slide">3</div>
+        </div>
+    </div>
+</body>
+</html>
