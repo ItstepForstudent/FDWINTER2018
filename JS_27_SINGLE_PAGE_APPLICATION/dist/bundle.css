@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0
+}
+.nav {
+  height: 50px;
+  background-color: #344;
+  color: #fff;
+  font-family: helvetica,tahoma,arial,serif;
+  list-style-type: none;
+  display: flex
+}
+.nav a {
+  display: block;
+  padding: 0 20px;
+  color: #fff;
+  line-height: 50px;
+  text-decoration: none
+}
+.nav a:hover {
+  text-decoration: underline
+}
+h1 {
+  background: #ccc
+}
+.tag {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: #369;
+  text-align: center;
+  line-height: 200px
+}

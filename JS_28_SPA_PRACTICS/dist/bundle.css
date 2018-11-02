@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0
+}
+.nav {
+  height: 50px;
+  background-color: #344;
+  color: #fff;
+  font-family: helvetica,tahoma,arial,serif;
+  list-style-type: none;
+  display: flex
+}
+.nav a {
+  display: block;
+  padding: 0 20px;
+  color: #fff;
+  line-height: 50px;
+  text-decoration: none
+}
+.nav a:hover {
+  text-decoration: underline
+}
+h1 {
+  background: #ccc
+}
+.module {
+  max-width: 960px;
+  margin: 10px auto
+}
+.module .form {
+  background-color: #ccc;
+  padding: 20px
+}
+.module .list {
+  background-color: #777;
+  padding: 10px
+}
+.module .list .listitem {
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+  display: flex
+}
+.module .list .listitem .data {
+  flex-grow: 1
+}
+.module .list .listitem .btn-success {
+  margin-left: 10px
+}
+.btn {
+  line-height: 40px;
+  padding: 0 20px;
+  border: none;
+  background-color: #ccc;
+  outline: 0;
+  border-radius: 5px;
+  cursor: pointer
+}
+.btn-success {
+  background-color: #369;
+  color: #fff
+}
+.btn-danger {
+  background-color: #933;
+  color: #fff
+}
+.input {
+  line-height: 40px;
+  padding: 0 20px;
+  color: #777;
+  outline: 0;
+  border-radius: 5px;
+  border: 1px solid #777
+}
+.textarea {
+  padding: 10px 20px;
+  color: #777;
+  outline: 0;
+  border-radius: 5px;
+  border: 1px solid #777
+}
+.userModule .form {
+  display: flex
+}
+.userModule .form .input {
+  flex-grow: 1;
+  margin-right: 10px
+}
+.notesModule .form {
+  display: flex;
+  flex-flow: column nowrap
+}
+.notesModule .form .input {
+  flex-grow: 1;
+  margin-bottom: 10px
+}
+.notesModule .form .textarea {
+  margin-bottom: 10px
+}

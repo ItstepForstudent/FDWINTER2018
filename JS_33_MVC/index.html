@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/rxjs/bundles/rxjs.umd.min.js"></script>
+    <script src="baseMVC.js"></script>
+    <script src="my.js"></script>
+
+    <style>
+        .panels{
+            display: flex;
+        }
+        .panel{
+            background-color: #369;
+            padding: 10px;
+        }
+        .panel .form{
+            background-color: #963;
+            padding: 10px;
+        }
+        .panel .list .item{
+            background-color: #963;
+            margin-top: 10px;
+            display: flex;
+        }
+        .panel .list .item.selected{
+            background-color: #396;
+        }
+        .panel .list .item .data{
+            flex-grow: 1;
+        }
+    </style>
+</head>
+
+
+
+<body>
+<div class="panels">
+    <div class="panel users">
+        <div class="form">
+            <input type="text"><button>ADD</button>
+        </div>
+        <div class="list">
+
+        </div>
+    </div>
+    <div class="panel notes">
+        <div class="form">
+            <input type="text" class="name">
+            <input type="text" class="desc">
+            <button>ADD</button>
+        </div>
+        <div class="list">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/rxjs/bundles/rxjs.umd.min.js"></script>
+    <script>
+       // rxjs.of(1,2,3).pipe(rxjs.operators.map(e=>e*2)).subscribe(e=>console.log(e));
+
+        // class BaseObservable{
+        //     constructor(){
+        //         this.observers = [];
+        //     }
+        //     notify(data){
+        //         this.observers.forEach(o=>o(data));
+        //     }
+        //     subscribe(observer){
+        //         this.observers.push(observer);
+        //     }
+        // }
+        //
+        //
+        //
+        // class Youtuber extends BaseObservable{
+        //     constructor(name) {
+        //         super();
+        //         this.name = name;
+        //         this.videos =[];
+        //     }
+        //     makeNewVideo(name){
+        //         this.videos.push(name);
+        //         this.notify(this.name+" выпустил видео "+name);
+        //     }
+        // }
+        //
+        // let vasia = new Youtuber("Vasia");
+        //
+        // vasia.subscribe(function (info) {
+        //     alert(info)
+        // });
+        // vasia.subscribe(function (info) {
+        //     console.log(info)
+        // });
+        //
+        // vasia.makeNewVideo("hello world");
+
+
+
+        // [1,2,3,4,5].filter(e=>e%2==0).map(e=>e*2).forEach(function (e) {
+        //     alert(e)
+        // });
+
+        // rxjs.of(1,2,3,4,5)
+        //     .pipe(rxjs.operators.filter(e=>e%2==0))
+        //     .pipe(rxjs.operators.map(e=>e*2))
+        //     .subscribe(e=>alert(e));
+
+        // rxjs.fromEvent(window,"mousemove")
+        //     .pipe(rxjs.operators.filter(e=>e.clientX<window.innerWidth/2))
+        //     .pipe(rxjs.operators.debounceTime(500))
+        //     .pipe(rxjs.operators.take(5))
+        //     .pipe(rxjs.operators.map(e=>e.clientX))
+        //     .subscribe(x=>document.body.innerText+=(x)+"<br>")
+        //
+        //
+        // subject = new rxjs.Subject();
+        // subject
+        //     .pipe(rxjs.operators.map(x=>x+" world"))
+        //     .subscribe(e=>alert(e));
+        //
+        // subject.next("hello");
+
+
+       console.log(rxjs);
+        //rxjs.from(rxjs..fetch("http://pdfstep.zzz.com.ua?action=user&method=getAll")).subscribe(u=>alert(u));
+
+        // rxjs.ajax.ajax.get("http://pdfstep.zzz.com.ua?action=user&method=getAll")
+        //     .pipe(rxjs.operators.map(r=>r.response))
+        //     .pipe(rxjs.operators.flatMap(r=> rxjs.from(r.data)))
+        //     .pipe(rxjs.operators.flatMap(u=>
+        //         rxjs.ajax.ajax.post("http://pdfstep.zzz.com.ua?action=todo&method=get",{id:u.id})
+        //             .pipe(rxjs.operators.map(r=>r.response))
+        //             .pipe(rxjs.operators.map(x=>x.data))
+        //             .pipe(rxjs.operators.map(x=>{
+        //                 u.notes = x;
+        //                 return u;
+        //             }))
+        //     ))
+        //     .pipe(rxjs.operators.tap(e=>console.log(e)))
+        //     .subscribe(e=>console.log(e));
+
+
+
+
+        document.addEventListener("DOMContentLoaded",function () {
+            let observableMail = rxjs.fromEvent(document.getElementById("mail"),"keyup")
+                .pipe(rxjs.operators.map(e=>(/^[a-z\-]+@([a-z\-]+\.)+([a-z]){2,5}$/i).test(e.target.value)));
+            let observablePhone = rxjs.fromEvent(document.getElementById("phone"),"keyup")
+                .pipe(rxjs.operators.map(e=>(/^[0-9]+$/).test(e.target.value)));
+
+
+            observableMail.subscribe(v=>document.getElementById("mail").className = v?"valid":"invalid");
+            observablePhone.subscribe(v=>document.getElementById("phone").className = v?"valid":"invalid");
+
+            rxjs.combineLatest(observableMail,observablePhone,(mail,phone)=>{return {mail,phone}})
+                .pipe(rxjs.operators.map(o=> o.mail&&o.phone))
+                .subscribe(x=>document.querySelector("button").disabled=!x);
+        });
+
+
+
+
+
+
+
+    </script>
+
+    <style>
+        .valid{
+            border:2px solid green;
+        }
+        .invalid{
+            border:2px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div class="form">
+        <input type="text" id="mail">
+        <input type="text" id="phone">
+        <button disabled>OK</button>
+    </div>
+</body>
+</html>

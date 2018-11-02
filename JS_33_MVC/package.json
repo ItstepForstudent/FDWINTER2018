@@ -1,0 +1,14 @@
+{
+  "name": "js_33_mvc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "baseMVC.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "rxjs": "^6.3.3"
+  }
+}
