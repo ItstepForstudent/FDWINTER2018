@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            background-color: #ccc;
+        }
+    </style>
+    <script>
+
+        class ClockDrawer{
+
+            constructor(ctx,radius,x,y){
+                this.ctx = ctx;
+                this.radius = radius;
+                this.x = x;
+                this.y = y;
+            }
+
+            drawClockwise(cx,cy,l,w,pos,fillColor,strokeColor){
+                this.ctx.save();
+
+                this.ctx.fillStyle = fillColor;
+                this.ctx.strokeStyle = strokeColor;
+                let angle = pos/30*Math.PI;//pos*6/180*PI
+                angle-=Math.PI/2;
+                let startAngle = angle-Math.PI/2;
+                let endAngle = angle+Math.PI/2;
+
+                this.ctx.beginPath();
+                this.ctx.arc(cx,cy,w/2,startAngle,endAngle,true);
+
+                let y0 = cy + l*Math.cos(Math.PI/2-angle);
+                let x0 = cx + l*Math.sin(Math.PI/2-angle);
+
+                this.ctx.lineTo(x0,y0);
+                this.ctx.closePath();
+
+
+                this.ctx.stroke();
+                this.ctx.fill();
+                this.ctx.restore();
+            }
+
+            drawSeconds(sec){
+                sec = sec===0 ? 60 : sec;
+                let radius = 0.9*this.radius;
+                let start = -Math.PI/2;
+                let end = -Math.PI/2 + sec/30*Math.PI;
+                this.ctx.save();
+                this.ctx.lineWidth = 0.05*this.radius;
+
+                this.ctx.beginPath();
+                this.ctx.arc(this.x,this.y,radius,start,end);
+
+                this.ctx.stroke();
+                this.ctx.restore();
+
+            }
+
+            drawCircle(){
+                this.ctx.save();
+                this.ctx.strokeStyle="red";
+                this.ctx.beginPath();
+                this.ctx.arc(this.x,this.y,this.radius*0.4,0,2*Math.PI);
+                this.ctx.stroke();
+                this.ctx.restore();
+            }
+
+
+
+            drawTime(){
+                let date = new Date();
+                let second = date.getSeconds();
+                let minute = date.getMinutes();
+                let hour = date.getHours();
+
+                this.drawClockwise(this.x,this.y,this.radius/2,this.radius/20,(hour%12)*5,"red","black");
+                this.drawClockwise(this.x,this.y,this.radius*0.8,this.radius/20,minute,"black","black");
+                this.drawSeconds(second);
+            }
+
+
+
+            draw(){
+                this.drawCircle();
+                this.drawTime()
+            }
+        }
+
+
+        window.addEventListener("load",function () {
+            let canvas = document.getElementById("cvs");
+            let ctx = canvas.getContext("2d");
+
+
+            let clockDriver = new ClockDrawer(ctx,150,160,160);
+
+            setInterval(function () {
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                clockDriver.draw()
+            },500);
+
+        })
+
+
+
+    </script>
+</head>
+<body>
+<canvas width="820" height="320" id="cvs" style="border: 1px solid black">Your browser is old</canvas>
+</body>
+</html>

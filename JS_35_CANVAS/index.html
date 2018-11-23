@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+
+        function getRandom(min,max) {
+            return Math.round(Math.random()*(max-min)+min);
+        }
+
+        class Bubble{
+            constructor(maxX,maxY,speed,onend){
+                this.color = ["red","green","blue","yellow","purple","violet"][getRandom(0,5)];
+                this.radius = getRandom(maxX/50,maxX/20);
+                this.x=getRandom(this.radius,maxX-this.radius);
+                this.y=0;
+                this.speed=speed;
+                this.maxY=maxY;
+                this.onend=onend;
+            }
+            draw(ctx){
+
+                ctx.save();
+
+                ctx.fillStyle=this.color;
+                ctx.beginPath();
+                ctx.arc(this.x,this.y,this.radius,0,2*Math.PI);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.restore();
+            }
+            move(){
+                this.y+=this.speed;
+                if(this.y>=this.maxY){
+                    this.onend();
+                }
+            }
+
+            isContainsCoords(x,y){
+               let x1 = x-this.x;
+               let y1 = y-this.y;
+               let r = Math.sqrt(x1*x1+y1*y1);
+               return r<=this.radius;
+            }
+        }
+
+        class Score{
+            constructor(fieldWidth){
+                this.w = fieldWidth/10;
+                this.h = fieldWidth/15;
+                this.score=0;
+            }
+            add(){
+                this.score++;
+            }
+            draw(ctx){
+                ctx.save();
+
+                ctx.fillStyle='white';
+                ctx.fillRect(10,10,this.w,this.h);
+                ctx.fillStyle='black';
+                ctx.textAlign="center";
+                ctx.font = this.h+"px Arial";
+                ctx.fillText(this.score,this.w/2+10,this.h/2+30);
+
+                ctx.restore();
+            }
+        }
+
+
+        class BubbleGame{
+
+            constructor(canvasSelector){
+                this.cvs = document.querySelector(canvasSelector);
+                this.ctx = this.cvs.getContext('2d');
+                this.bubbles = [];
+                this.setListeners();
+            }
+
+            onClickEvent(x,y){
+                this.bubbles.filter(b=>b.isContainsCoords(x,y)).forEach(b=>this.onBubbleClick(b));
+            }
+            onClickEventGameOver(x,y){
+                alert(":((((");
+            }
+
+            appendBubble(){
+                let bubble = new Bubble(this.cvs.width,this.cvs.height,this.speed,()=>this.onBubbleDown(bubble));
+                this.bubbles.push(bubble);
+            }
+
+            onBubbleDown(bubble){
+                this.gameOver();
+            }
+            onBubbleClick(bubble){
+                if(this.speed<10) this.speed+=0.1;
+                this.score.add();
+                this.deleteBubble(bubble);
+            }
+
+            deleteBubble(bubble){
+                this.bubbles=this.bubbles.filter(b=>b!==bubble);
+            }
+
+            move(){
+                this.bubbles.forEach(b=>b.move());
+            }
+
+            draw(){
+                console.log("draw");
+                this.bubbles.forEach(b=>b.draw(this.ctx));
+                this.score.draw(this.ctx);
+            }
+
+            start(){
+                this.isGameOver = false;
+                this.speed = 10;
+                this.score = new Score(this.cvs.width);
+
+                this.mainGameInterval = setInterval(()=>{
+                    this.move();
+                    if(this.isGameOver) return;
+                    this.ctx.clearRect(0,0,this.cvs.width,this.cvs.height);
+                    this.draw();
+                },40);
+                this.bubbleGenerateInterval = setInterval(()=>this.appendBubble(),1000);
+            }
+
+            gameOver(){
+                clearInterval(this.mainGameInterval);
+                clearInterval(this.bubbleGenerateInterval);
+                this.bubbles=[];
+                this.ctx.clearRect(0,0,this.cvs.width,this.cvs.height);
+                this.drawGameOver();
+                this.isGameOver = true;
+            }
+
+            drawGameOver(){
+
+                this.ctx.fillStyle="red";
+                this.ctx.textAlign="center";
+                this.ctx.font="50px Arial";
+                this.ctx.fillText("Game Over",this.cvs.width/2,this.cvs.height/2);
+                this.score.draw(this.ctx);
+
+            }
+
+
+            setListeners() {
+                this.cvs.addEventListener("click",e=>
+                    this.isGameOver
+                    ?this.onClickEventGameOver(
+                            e.clientX-this.cvs.getBoundingClientRect().x,
+                            e.clientY-this.cvs.getBoundingClientRect().y)
+                    :this.onClickEvent(
+                            e.clientX-this.cvs.getBoundingClientRect().x,
+                            e.clientY-this.cvs.getBoundingClientRect().y)
+                );
+            }
+        }
+
+        window.onload=()=>{
+          let game = new BubbleGame("canvas");
+          game.start();
+        };
+
+
+    </script>
+</head>
+<body>
+    <canvas width="800px" height="600px" style="background-color: #ccc;">
+
+    </canvas>
+</body>
+</html>

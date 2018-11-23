@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+
+        window.addEventListener("load",function () {
+            let canvas = document.getElementById("cvs");
+            let ctx = canvas.getContext("2d");
+
+            //RECT
+            // ctx.fillRect(10,10,100,100);
+            // ctx.strokeRect(150,150,100,100);
+            // ctx.clearRect(50,50,20,20);
+
+            //PATH
+
+            // ctx.beginPath();
+            // ctx.moveTo(200,200);
+            // ctx.lineTo(400,300);
+            // ctx.lineTo(20,200);
+            //
+            // ctx.closePath();
+            //
+            // ctx.lineWidth=10;
+            // ctx.lineJoin="round";
+            // ctx.strokeStyle="red";
+            // ctx.fillStyle="#ccc";
+            // ctx.stroke();
+            // ctx.fill();
+            //
+            //
+            // ctx.beginPath();
+            // ctx.arc(100,100,50,0,90/180*Math.PI,true);
+            // ctx.stroke();
+
+
+
+
+
+            //CURVE
+            // ctx.beginPath();
+            // ctx.moveTo(100,100);
+            // ctx.quadraticCurveTo(150,200,200,100);
+            // ctx.stroke();
+            //
+            //
+            // ctx.beginPath();
+            // ctx.moveTo(100,200);
+            // ctx.bezierCurveTo(130,300,170,100,200,200);
+            // ctx.stroke()
+
+
+            //GRADIENT
+
+            // let grad = ctx.createLinearGradient(0,0,200,200);
+            //
+            // grad.addColorStop(0,"red");
+            // grad.addColorStop(0.5,"black");
+            // grad.addColorStop(1,"green");
+            //
+            // ctx.fillStyle = grad;
+            // ctx.fillRect(0,0,200,200);
+
+            // let x = 100;
+            // let iter = setInterval(function () {
+            //     ctx.clearRect(0,0,300,300);
+            //     let grad = ctx.createRadialGradient(100,100,50,x,100,100);
+            //
+            //     grad.addColorStop(0,"red");
+            //     grad.addColorStop(0.5,"black");
+            //     grad.addColorStop(1,"green");
+            //
+            //     ctx.fillStyle = grad;
+            //     ctx.fillRect(0,0,200,200);
+            //     x+=2;
+            //     if(x>200) clearInterval(iter);
+            // },200)
+
+
+            // ctx.fillStyle="red";
+            // ctx.lineWidth=2;
+            // ctx.font="30px Arial";
+            // ctx.textAlign="center";
+            // ctx.strokeText("Hello",100,100);
+            // ctx.fillText("Hello",100,100);
+
+            let img = new Image();
+            img.src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/200px-Cat03.jpg';
+            img.onload=function(){
+                ctx.drawImage(img,200,0);
+            }
+
+
+
+
+
+
+
+        })
+
+
+
+    </script>
+</head>
+<body>
+    <canvas width="820" height="320" id="cvs" style="border: 1px solid black">Your browser is old</canvas>
+</body>
+</html>
